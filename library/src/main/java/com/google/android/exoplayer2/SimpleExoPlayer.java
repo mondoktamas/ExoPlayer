@@ -44,6 +44,7 @@ import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.text.TextRenderer;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.MediaCodecVideoRenderer;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 import com.jcodeing.library_exo.sonic.SonicMediaCodecAudioTrackRenderer;
@@ -703,8 +704,9 @@ public class SimpleExoPlayer implements ExoPlayer {
       DrmSessionManager<FrameworkMediaCrypto> drmSessionManager,
       @ExtensionRendererMode int extensionRendererMode, AudioRendererEventListener eventListener,
       ArrayList<Renderer> out) {
-    out.add(new SonicMediaCodecAudioTrackRenderer(MediaCodecSelector.DEFAULT, drmSessionManager, true,
-        mainHandler, eventListener, AudioCapabilities.getCapabilities(context)));
+      out.add(Util.SDK_INT <= 23 ? new MediaCodecAudioRenderer(MediaCodecSelector.DEFAULT, drmSessionManager, true,
+              mainHandler, eventListener, AudioCapabilities.getCapabilities(context)) : new SonicMediaCodecAudioTrackRenderer(MediaCodecSelector.DEFAULT, drmSessionManager, true,
+            mainHandler, eventListener, AudioCapabilities.getCapabilities(context)));
 
     if (extensionRendererMode == EXTENSION_RENDERER_MODE_OFF) {
       return;

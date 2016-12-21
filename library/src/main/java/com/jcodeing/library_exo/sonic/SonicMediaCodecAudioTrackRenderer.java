@@ -143,7 +143,7 @@ public final class SonicMediaCodecAudioTrackRenderer extends MediaCodecAudioRend
         this.speed = speed;
         setSonicSpeed(speed);
         setSonicPitch(1);
-        setSonicRate(1 / speed);
+        setSonicRate(1);
     }
 
 }
