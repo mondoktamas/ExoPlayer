@@ -446,21 +446,15 @@ import java.io.IOException;
     // Update the playback position.
     long periodPositionUs = playingPeriodHolder.mediaPeriod.readDiscontinuity();
     if (periodPositionUs != C.TIME_UNSET) {
-      resetRendererPosition(periodPositionUs);
+        resetRendererPosition(periodPositionUs);
     } else {
-      //if (rendererMediaClockSource != null && !rendererMediaClockSource.isEnded()) {
-        rendererPositionUs = rendererMediaClock.getPositionUs();
-        standaloneMediaClock.setPositionUs(rendererPositionUs);
-      //} else {
-      //  rendererPositionUs = standaloneMediaClock.getPositionUs();
-      //}
-      periodPositionUs = rendererPositionUs - playingPeriodHolder.rendererPositionOffsetUs;
-/*=======
-      } else {
-        rendererPositionUs = standaloneMediaClock.getPositionUs();
-      }
-      periodPositionUs = playingPeriodHolder.toPeriodTime(rendererPositionUs);
->>>>>>> origin/release-v2*/
+        if (rendererMediaClockSource != null && !rendererMediaClockSource.isEnded()) {
+            rendererPositionUs = rendererMediaClock.getPositionUs();
+            standaloneMediaClock.setPositionUs(rendererPositionUs);
+        } else {
+            rendererPositionUs = standaloneMediaClock.getPositionUs();
+        }
+        periodPositionUs = playingPeriodHolder.toPeriodTime(rendererPositionUs);
     }
     playbackInfo.positionUs = periodPositionUs;
     elapsedRealtimeUs = SystemClock.elapsedRealtime() * 1000;
