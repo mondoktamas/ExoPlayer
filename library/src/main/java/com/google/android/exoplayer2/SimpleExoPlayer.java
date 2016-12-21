@@ -46,6 +46,8 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.video.MediaCodecVideoRenderer;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.jcodeing.library_exo.sonic.SonicMediaCodecAudioTrackRenderer;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
@@ -701,7 +703,7 @@ public class SimpleExoPlayer implements ExoPlayer {
       DrmSessionManager<FrameworkMediaCrypto> drmSessionManager,
       @ExtensionRendererMode int extensionRendererMode, AudioRendererEventListener eventListener,
       ArrayList<Renderer> out) {
-    out.add(new MediaCodecAudioRenderer(MediaCodecSelector.DEFAULT, drmSessionManager, true,
+    out.add(new SonicMediaCodecAudioTrackRenderer(MediaCodecSelector.DEFAULT, drmSessionManager, true,
         mainHandler, eventListener, AudioCapabilities.getCapabilities(context)));
 
     if (extensionRendererMode == EXTENSION_RENDERER_MODE_OFF) {
