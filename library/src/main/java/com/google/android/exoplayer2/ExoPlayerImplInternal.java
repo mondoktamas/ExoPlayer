@@ -692,6 +692,7 @@ import java.io.IOException;
     standaloneMediaClock.stop();
     rendererMediaClock = null;
     rendererMediaClockSource = null;
+    rendererPositionUs = RENDERER_TIMESTAMP_OFFSET_US;
     for (Renderer renderer : enabledRenderers) {
       try {
         ensureStopped(renderer);
@@ -839,9 +840,6 @@ import java.io.IOException;
   }
 
   private boolean haveSufficientBuffer(boolean rebuffering) {
-    if (loadingPeriodHolder == null) {
-      return false;
-    }
     long loadingPeriodBufferedPositionUs = !loadingPeriodHolder.prepared
         ? loadingPeriodHolder.startPositionUs
         : loadingPeriodHolder.mediaPeriod.getBufferedPositionUs();
@@ -1303,7 +1301,8 @@ import java.io.IOException;
   }
 
   private void maybeContinueLoading() {
-    long nextLoadPositionUs = loadingPeriodHolder.mediaPeriod.getNextLoadPositionUs();
+    long nextLoadPositionUs = !loadingPeriodHolder.prepared ? 0
+        : loadingPeriodHolder.mediaPeriod.getNextLoadPositionUs();
     if (nextLoadPositionUs == C.TIME_END_OF_SOURCE) {
       setIsLoading(false);
     } else {
